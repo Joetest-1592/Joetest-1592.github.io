@@ -46,14 +46,17 @@
       z-index: -1;
     }
 
-    /* Add some GIF placeholders */
+    /* Adjust the GIF container for animation */
     .gif-container {
       position: absolute;
       bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       justify-content: space-between;
       width: 100%;
       padding: 10px;
+      animation: moveGifs 5s infinite alternate; /* Add animation */
     }
 
     .gif {
@@ -67,7 +70,17 @@
       justify-content: center;
     }
 
-    /* Add the audio player */
+    /* Define the animation */
+    @keyframes moveGifs {
+      0% {
+        transform: translateX(-50%);
+      }
+      100% {
+        transform: translateX(50%);
+      }
+    }
+
+    /* Add the audio player styles (unchanged) */
     .audio-player {
       position: absolute;
       bottom: 0;
@@ -79,7 +92,7 @@
     }
   </style>
   <script>
-    // Set the date for the countdown (adjust as needed)
+     // Set the date for the countdown (adjust as needed)
     const countdownDate = new Date("2024-08-01T00:00:00").getTime();
     // Update the countdown every second
     const countdown = setInterval(function() {
@@ -101,12 +114,11 @@
   <div class="bgimg">
     <div class="middle">
       <h1> COMING SOON </h1>
-      <p>Joe, you  really dont wanna miss this....
-     </p>
-    
+      <p>Joe, you really don't wanna miss this...</p>
       <p id="countdown"></p>
     </div>
     <div class="overlay"></div>
+    <!-- GIF container remains unchanged -->
     <div class="gif-container">
       <a href="https://example.com/link1" target="_blank">
         <div class="gif">
@@ -119,6 +131,7 @@
         </div>
       </a>
     </div>
+    <!-- Audio player remains unchanged -->
     <div class="audio-player">
       <audio controls>
         <source src="https://files.catbox.moe/qacu7i.mp3" type="audio/mpeg">
@@ -128,4 +141,3 @@
   </div>
 </body>
 </html>
-``
