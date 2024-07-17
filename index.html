@@ -1,78 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
-    <style>
-      body,
-      html {
-        height: 100%;
-        margin: 0;
-        font-family: Impact, sans-serif;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joe's Awesome Page</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Impact', sans-serif;
+    }
 
-      .bgimg {
-        background-image: url('https://i.imgur.com/nxtqeYS.gif');
-        height: 100%;
-        background-position: center;
-        background-size: cover;
-        position: relative;
-        color: red;
-        /* Changed to red */
-        font-size: 25px;
-      }
+    .bgimg {
+      background-image: url('https://i.imgur.com/nxtqeYS.gif');
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      position: relative;
+      color: #ff00ff;
+      font-size: 20px;
+    }
 
-      .topleft {
-        position: absolute;
-        top: 0;
-        left: 16px;
-      }
+    .middle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
 
-      .middle {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-      }
+    #countdown {
+      color: #4682b4;
+      font-weight: bold;
+    }
 
-      hr {
-        margin: auto;
-        width: 40%;
-      }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      z-index: -1;
+    }
 
-      #countdown {
-        color: purple;
-        /* Countdown text in pink */
+    /* Add some GIF placeholders */
+    .gif-container {
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .gif {
+      width: 150px;
+      height: 150px;
+      background-color: #f0f0f0;
+      border: 2px solid #ff00ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Add the audio player */
+    .audio-player {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
+  <script>
+    // Set the date for the countdown (adjust as needed)
+    const countdownDate = new Date("2024-08-01T00:00:00").getTime();
+    // Update the countdown every second
+    const countdown = setInterval(function() {
+      const now = new Date().getTime();
+      const timeLeft = countdownDate - now;
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      if (timeLeft < 0) {
+        clearInterval(countdown);
+        document.getElementById("countdown").innerHTML = "EXPIRED";
       }
-    </style>
-    <script>
-      // Set the date for the countdown (adjust as needed)
-      const countdownDate = new Date("2024-08-01T00:00:00").getTime();
-      // Update the countdown every second
-      const countdown = setInterval(function() {
-        const now = new Date().getTime();
-        const timeLeft = countdownDate - now;
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        if (timeLeft < 0) {
-          clearInterval(countdown);
-          document.getElementById("countdown").innerHTML = "EXPIRED";
-        }
-      }, 1000);
-    </script>
-  </head>
-  <body>
-    <div class="bgimg">
-      <div class="text-bottom"></div>
-      <div class="middle">
-        <h1>COMING SOON</h1>
-        <p>You won't want to miss this, Joe!</p> A truly life-changing experience awaits you. <p id="countdown"></p>
-      </div>
+    }, 1000);
+  </script>
+</head>
+<body>
+  <div class="bgimg">
+    <div class="middle">
+      <h1> COMING SOON </h1>
+      <p>Joe, you  really dont wanna miss this....
+     </p>
+    
+      <p id="countdown"></p>
     </div>
-  </body>
+    <div class="overlay"></div>
+    <div class="gif-container">
+      <a href="https://example.com/link1" target="_blank">
+        <div class="gif">
+          <img src="https://i.imgur.com/vKGAaJs.png" alt="GIF 1">
+        </div>
+      </a>
+      <a href="https://example.com/link2" target="_blank">
+        <div class="gif">
+          <img src="https://i.imgur.com/b4cJKx9.gif" alt="GIF 2">
+        </div>
+      </a>
+    </div>
+    <div class="audio-player">
+      <audio controls>
+        <source src="https://files.catbox.moe/qacu7i.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+</body>
 </html>
+``
