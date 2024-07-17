@@ -1,52 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coming Soon</title>
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .bgimg {
-            background-image: url('https://i.imgur.com/7gOYVrA.gif');
-            height: 100%;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            color: white;
-            font-size: 25px;
-        }
-        .topleft {
-            position: absolute;
-            top: 0;
-            left: 16px;
-        }
-        .middle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        hr {
-            margin: auto;
-            width: 40%;
-        }
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: Impact, sans-serif;
+      }
+
+      .bgimg {
+        background-image: url('https://i.imgur.com/nxtqeYS.gif');
+        height: 100%;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+        color: red;
+        /* Changed to red */
+        font-size: 25px;
+      }
+
+      .topleft {
+        position: absolute;
+        top: 0;
+        left: 16px;
+      }
+
+      .middle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      hr {
+        margin: auto;
+        width: 40%;
+      }
+
+      #countdown {
+        color: purple;
+        /* Countdown text in pink */
+      }
     </style>
-</head>
-<body>
+    <script>
+      // Set the date for the countdown (adjust as needed)
+      const countdownDate = new Date("2024-08-01T00:00:00").getTime();
+      // Update the countdown every second
+      const countdown = setInterval(function() {
+        const now = new Date().getTime();
+        const timeLeft = countdownDate - now;
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        if (timeLeft < 0) {
+          clearInterval(countdown);
+          document.getElementById("countdown").innerHTML = "EXPIRED";
+        }
+      }, 1000);
+    </script>
+  </head>
+  <body>
     <div class="bgimg">
-        <div class="topleft">
-            <p>Joe</p>
-        </div>
-        <div class="middle">
-            <h1>COMING SOON</h1>
-            <hr>
-            <p>Stay tuned Joe... You wont want to miss this</p>
-        </div>
+      <div class="text-bottom"></div>
+      <div class="middle">
+        <h1>COMING SOON</h1>
+        <p>You won't want to miss this, Joe!</p> A truly life-changing experience awaits you. <p id="countdown"></p>
+      </div>
     </div>
-</body>
+  </body>
 </html>
