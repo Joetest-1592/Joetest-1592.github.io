@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Joe cock torture</title>
+    <style>
+        body {
+            font-family: j, sans-serif;
+            background-image: url(https://i.imgur.com/vPD866t.png);
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            cursor: none;
+            text-align: center;
+        }
+        .rainbow-text {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 5s infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        @keyframes rainbow {
+            0% { background-position: 0 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0 50%; }
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .sidebar {
+            width: 20%;
+            background-color: #fc0;
+            padding: 10px;
+            box-sizing: border-box;
+            border-right: 2px solid #000;
+            background-image: url(https://i.imgur.com/gMUi6yW.png);
+        }
+        .content {
+            width: 60%;
+            padding: 10px;
+            box-sizing: border-box;
+            background-image: url(https://i.imgur.com/0dVS45G.jpeg);
+        }
+        .youtube-embed {
+            position: relative;
+            padding-bottom: 50%;
+            height: 0;
+            overflow: hidden;
+            max-width: 89%;
+            background: #000;
+            margin-bottom: 50px;
+        }
+        .youtube-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .blog-post {
+            clear: both;
+            padding: 10px;
+            background-color: #fc0;
+            border-top: 2px solid #000;
+            margin-top: 20px;
+            background-image: url(https://i.imgur.com/N01eck5.jpeg);
+            width: 100%;
+        }
+        .gifs {
+            padding: 10px;
+            text-align: center;
+            background-color: #fc0;
+            border-top: 2px solid #000;
+            margin-top: 20px;
+            background-image: url(https://i.imgur.com/4bCjn4H.png);
+        }
+        .gifs img {
+            margin: 5px;
+            border: 2px solid #000;
+        }
+        .cursor-image {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2 class="rainbow-text">Joseph Tamsen</h2>
+            <p>To show our appreciation for you we decided to make this heartfelt Album dedicated to you.</p>
+        </div>
+        <div class="content">
+            <div class="header">
+                <h1 class="rainbow-text"></h1>
+            </div>
+            <div class="youtube-embed">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="blog-post">
+                <h2 class="rainbow-text">Testimonies</h2>
+                <p>blahablahslasdbladhasdlhasd</p>
+            </div>
+            <div class="gifs">
+                <h2 class="rainbow-text">lol</h2>
+                <img src="https://i.imgur.com/HE0Y2W2.png" alt="GIF 1">
+                <img src="https://i.imgur.com/TzpHDcR.gif" alt="GIF 2">
+                <img src="https://i.imgur.com/2kT5DY9.gif" alt="GIF 3">
+            </div>
+        </div>
+        <div class="sidebar">
+            <!-- You can add more content here if needed -->
+        </div>
+    </div>
+    <img src="https://i.imgur.com/1vOtHU1.gif" alt="Cursor Image" class="cursor-image" id="cursorImage">
+    <script>
+        document.addEventListener("mousemove", function(e) {
+            var t = document.getElementById("cursorImage");
+            t.style.left = e.pageX + "px";
+            t.style.top = e.pageY + "px";
+        });
+    </script>
+</body>
+</html>
