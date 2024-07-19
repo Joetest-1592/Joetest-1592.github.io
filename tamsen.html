@@ -3,7 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrolling Text and Images</title>
+  <title>Joseph</title>
+  <script type = "text/javascript">
+  var msg =
+    "JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN JOSEPH TAMSEN ";
+  var chars = Array.from(msg);
+
+  function scrollTitle() {
+    chars.push(chars.shift());
+    document.title = chars.join("");
+    window.setTimeout(scrollTitle, 120);
+  }
+
+  (function() {
+    scrollTitle();
+  })();
+</script>
   <style>
     body, html {
       height: 100%;
