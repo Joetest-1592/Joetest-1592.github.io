@@ -46,7 +46,6 @@
       z-index: -1;
     }
 
-    /* Adjust the GIF container for animation */
     .gif-container {
       position: absolute;
       bottom: 0;
@@ -56,7 +55,7 @@
       justify-content: space-between;
       width: 100%;
       padding: 10px;
-      animation: moveGifs 5s infinite alternate; /* Add animation */
+      animation: moveGifs 5s infinite alternate;
     }
 
     .gif {
@@ -70,7 +69,6 @@
       justify-content: center;
     }
 
-    /* Define the animation */
     @keyframes moveGifs {
       0% {
         transform: translateX(-50%);
@@ -80,7 +78,6 @@
       }
     }
 
-    /* Add the audio player styles (unchanged) */
     .audio-player {
       position: absolute;
       bottom: 0;
@@ -90,11 +87,27 @@
       text-align: center;
       padding: 10px;
     }
+
+    .click-here {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 30px;
+      color: #ff0000;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .joes-room {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #00ff00;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
   </style>
   <script>
-     // Set the date for the countdown (adjust as needed)
     const countdownDate = new Date("2024-08-01T00:00:00").getTime();
-    // Update the countdown every second
     const countdown = setInterval(function() {
       const now = new Date().getTime();
       const timeLeft = countdownDate - now;
@@ -118,7 +131,8 @@
       <p id="countdown"></p>
     </div>
     <div class="overlay"></div>
-    <!-- GIF container remains unchanged -->
+    <a href="tamsen.html" target="_blank" class="click-here">CLICK HERE</a>
+    <a href="joesroom.html" target="_blank" class="joes-room">Joe's Room</a>
     <div class="gif-container">
       <a href="https://www.crazygames.com/game/scary-maze" target="_blank">
         <div class="gif">
@@ -131,7 +145,6 @@
         </div>
       </a>
     </div>
-    <!-- Audio player remains unchanged -->
     <div class="audio-player">
       <audio controls autoplay>
         <source src="https://files.catbox.moe/x79vt5.mp3" type="audio/mpeg">

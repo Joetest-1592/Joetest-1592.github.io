@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrolling Text and Images</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: 'IMPACT', sans-serif;
+    }
+
+    .background {
+      background-image: url('https://i.imgur.com/zSVm0Fq.png');
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .scrolling-text {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: scrollText 20s linear infinite;
+    }
+
+    .scrolling-text span {
+      display: inline-block;
+      font-size: 12px;
+      color: #ffffff;
+      animation: scrollText 20s linear infinite;
+    }
+
+    @keyframes scrollText {
+      0% { transform: translateY(100%); }
+      100% { transform: translateY(-100%); }
+    }
+
+    .scrolling-images {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .scrolling-images img {
+      width: 400px;
+      height: 400px;
+      margin: 10px;
+      position: absolute;
+      animation: scrollImages linear infinite;
+    }
+
+    @keyframes scrollImages {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-3000%); }
+    }
+
+    .scrolling-images img:nth-child(1) { animation-duration: 15s; animation-delay: 0s; }
+    .scrolling-images img:nth-child(2) { animation-duration: 17s; animation-delay: 3s; }
+    .scrolling-images img:nth-child(3) { animation-duration: 19s; animation-delay: 0s; }
+    .scrolling-images img:nth-child(4) { animation-duration: 21s; animation-delay: 3s; }
+    .scrolling-images img:nth-child(5) { animation-duration: 23s; animation-delay: 1s; }
+    .scrolling-images img:nth-child(6) { animation-duration: 25s; animation-delay: 5s; }
+    .scrolling-images img:nth-child(7) { animation-duration: 27s; animation-delay: 2s; }
+    .scrolling-images img:nth-child(8) { animation-duration: 29s; animation-delay: 7s; }
+    .scrolling-images img:nth-child(9) { animation-duration: 31s; animation-delay: 8s; }
+    .scrolling-images img:nth-child(10) { animation-duration: 33s; animation-delay: 4s; }
+    .scrolling-images img:nth-child(11) { animation-duration: 35s; animation-delay: 10s; }
+    .scrolling-images img:nth-child(12) { animation-duration: 37s; animation-delay: 8s; }
+    .scrolling-images img:nth-child(13) { animation-duration: 39s; animation-delay: 12s; }
+    .scrolling-images img:nth-child(14) { animation-duration: 41s; animation-delay: 13s; }
+    .scrolling-images img:nth-child(15) { animation-duration: 43s; animation-delay: 14s; }
+    .scrolling-images img:nth-child(16) { animation-duration: 45s; animation-delay: 15s; }
+    .scrolling-images img:nth-child(17) { animation-duration: 47s; animation-delay: 3s; }
+    .scrolling-images img:nth-child(18) { animation-duration: 49s; animation-delay: 17s; }
+    .scrolling-images img:nth-child(19) { animation-duration: 51s; animation-delay: 1s; }
+    .scrolling-images img:nth-child(20) { animation-duration: 53s; animation-delay: 10s; }
+
+    .audio-player {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="scrolling-text">
+    <span></span>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+		TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+	TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+	TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+	TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+	TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+	TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+	TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+	TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+	TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+		TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+		
+			TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+				TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+					TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+						TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN TAMSEN <br>
+						</span>
+  </div>
+  <div class="scrolling-images">
+    <img src="https://i.imgur.com/qjzsqjR.png" alt="Image 1" style="top: 0;">
+    <img src="https://i.imgur.com/pSQ1U0t.png" alt="Image 2" style="top: 50px;">
+    <img src="https://i.imgur.com/T7ES9Az.png" alt="Image 3" style="top: 100px;">
+    <img src="https://i.imgur.com/o1nshmg.png" alt="Image 4" style="top: 150px;">
+    <img src="https://i.imgur.com/w2199PQ.png" alt="Image 5" style="top: 200px;">
+    <img src="https://i.imgur.com/JlEJnaT.png" alt="Image 6" style="top: 250px;">
+    <img src="https://i.imgur.com/d43U0Pj.png" alt="Image 7" style="top: 300px;">
+    <img src="https://i.imgur.com/NDAerdg.jpeg" alt="Image 8" style="top: 350px;">
+    <img src="https://i.imgur.com/iAndlxC.png" alt="Image 9" style="top: 400px;">
+    <img src="https://i.imgur.com/BQ2Dy4P.gif" alt="Image 10" style="top: 450px;">
+    <img src="https://i.imgur.com/8bH5jVS.png" alt="Image 11" style="top: 500px;">
+    <img src="https://i.imgur.com/WoM5qzs.png" alt="Image 12" style="top: 550px;">
+    <img src="https://i.imgur.com/f4y9Azt.png" alt="Image 13" style="top: 600px;">
+    <img src="https://i.imgur.com/dI4WGIQ.png" alt="Image 14" style="top: 525px;">
+    <img src="https://i.imgur.com/ynFB15y.png" alt="Image 15" style="top: 700px;">
+    <img src="https://i.imgur.com/XyCSZTF.png" alt="Image 16" style="top: 750px;">
+    <img src="https://example.com/image17.jpg" alt="JOSEPH TAMSEN" style="top: 800px;">
+    <img src="https://example.com/image18.jpg" alt="hi joe" style="top: 850px;">
+    <img src="https://example.com/image19.jpg" alt="*puts sounding rod in ur penis*" style="top: 900px;">
+    <img src="https://example.com/image20.jpg" alt="XD" style="top: 950px;">
+  </div>
+  <div class="audio-player">
+    <audio controls autoplay loop>
+      <source src="https://files.catbox.moe/nrbb8h.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+</body>
+</html>
