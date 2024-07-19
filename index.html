@@ -12,8 +12,29 @@
     body {
       background: repeating-linear-gradient(0deg, black, black 50px, white 50px, white 100px);
       animation: stripeAnimation 2s linear infinite;
+      cursor: none; /* Hide the default cursor */
+    }
+    .custom-cursor {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      pointer-events: none; /* Make sure the cursor image doesn't interfere with clicking */
+      z-index: 1000; /* Ensure the cursor image is on top */
     }
   </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const customCursor = document.createElement("img");
+      customCursor.src = "https://i.imgur.com/1vOtHU1.gif"; // Custom cursor image URL
+      customCursor.className = "custom-cursor";
+      document.body.appendChild(customCursor);
+
+      document.addEventListener("mousemove", function(e) {
+        customCursor.style.left = e.pageX + "px";
+        customCursor.style.top = e.pageY + "px";
+      });
+    });
+  </script>
 </head>
 <body class="flex items-center justify-center h-screen" style="font-family: 'Press Start 2P', cursive; padding-top: 450px;">
   <div class="flex flex-col items-center text-center p-5 bg-white rounded-md shadow-md" style="width: 400px;">
