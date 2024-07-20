@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Point-and-Click Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #game-container {
+            width: 800px;
+            height: 600px;
+            margin: 0 auto;
+            position: relative;
+            background-image: url('https://i.imgur.com/zgJwlj4.jpeg');
+            background-size: cover;
+            transition: background-image 0.5s ease;
+        }
+        .clickable {
+            position: absolute;
+            cursor: pointer;
+            max-width: 60px;
+            max-height: 100px;
+            width: auto;
+            height: auto;
+            transition: opacity 0.3s ease;
+        }
+        #text-display {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+        }
+        #video-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <img src="https://i.imgur.com/sREoKTd.gif" class="clickable" id="item1" style="left: 275px; top: 340px;" onclick="clickItem(this, 'picked up cigs')">
+        <img src="https://i.imgur.com/l7wBZTj.png" class="clickable" id="item2" style="right: 100px; top: 300px;" onclick="clickItem(this, 'You found Item 2!', true)">
+        <div id="text-display"></div>
+    </div>
+
+    <div id="video-container">
+        <div id="close-video" onclick="closeVideo()">✖</div>
+        <iframe id="youtube-video" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        function showText(text) {
+            document.getElementById('text-display').innerText = text;
+        }
+
+        function clickItem(item, text, changeBackground = false) {
+            item.style.opacity = '0';
+            setTimeout(() => item.style.display = 'none', 300);
+            showText(text);
+
+            if (changeBackground) {
+                const gameContainer = document.getElementById('game-container');
+                gameContainer.style.backgroundImage = "url('https://i.imgur.com/IBVp9xI.png')";
+                showText("the smell of Joe's shit overwhelms you");
+                setTimeout(showVideo, 15000);
+            }
+        }
+
+        function showVideo() {
+            const videoContainer = document.getElementById('video-container');
+            const iframe = document.getElementById('youtube-video');
+            // Replace 'VIDEO_ID' with the actual YouTube video ID
+            iframe.src = 'https://www.youtube.com/watch?v=BhHPmqLQcG4?autoplay=1';
+            videoContainer.style.display = 'block';
+        }
+
+        function closeVideo() {
+            const videoContainer = document.getElementById('video-container');
+            const iframe = document.getElementById('youtube-video');
+            videoContainer.style.display = 'none';
+            iframe.src = '';
+        }
+    </script>
+</body>
+</html>
