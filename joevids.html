@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girlypop Video Gallery</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FFE6F2;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23FF69B4' fill-opacity='0.1'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2L74 40h-2zm4 0l4-4v2L78 40h-2zm4 0v2L80 40h-2zM0 40h2L0 42v-2zm0 4l4-4h2L0 46v-2zm0 4l8-8h2L0 50v-2zm0 4l12-12h2L0 54v-2zm0 4l16-16h2L0 58v-2zm0 4l20-20h2L0 62v-2zm0 4l24-24h2L0 66v-2zm0 4l28-28h2L0 70v-2zm0 4l32-32h2L0 74v-2zm0 4l36-36h2L0 78v-2zm0 4l40-40h2L0 82v-2zM2 80L0 82h2v-2zm4 0L0 86h2v-2zm4 0L0 90h2v-2zm4 0L0 94h2v-2zm4 0L0 98h2v-2zm4 0l-6 6h2v-2zm4 0l-4 4h2v-2z'/%3E%3C/g%3E%3C/svg%3E");
+            color: #FF69B4;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            margin-top: 30px;
+            text-shadow: 2px 2px #FFC0CB;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .video-item {
+            background-color: #FFC0CB;
+            border-radius: 5px;
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            width: 500px;
+        }
+        .video-item:hover {
+            transform: scale(1.05);
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+        .video-item h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>✨ Joe vids ✨</h1>
+    <div class="gallery">
+        <div class="video-item">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/RWzlSQg8mi4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            
+            <h3>DIY Joe Ideas</h3>
+        </div>
+        <div class="video-item">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/p4YGSWc_ruU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <h3>Kawaii Joseph: Cupcake</h3>
+        </div>
+        <div class="video-item">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Va0wPHb6VhE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <h3>Tamsen Fashion Haul</h3>
+        </div>
+        <div class="video-item">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/VNNEZIzqrhw" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <h3>joe-pop Dance Tutorial</h3>
+        </div>
+        <div class="video-item">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/7UN2Im3We2I " frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <h3>Cute Tamsen creepshots</h3>
+        </div>
+        <div class="video-item">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Yyp2wbZxPuk " frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <h3>Joe Anime Review</h3>
+        </div>
+        <div class="video-item">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Tv2J0DpGM0w " frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <h3>Tamsen-Themed Party Ideas</h3>
+        </div>
+        
+        </div>
+    </div>
+</body>
+</html>
