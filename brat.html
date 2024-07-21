@@ -15,12 +15,21 @@
     <audio src="https://files.catbox.moe/e3ef4m.mp3" controls autoplay loop>
         Your browser does not support the audio element.
     </audio>
+	 <img src="https://i.imgur.com/1vOtHU1.gif" alt="Cursor Image" class="cursor-image" id="cursorImage">
+    <script>
+        document.addEventListener("mousemove", function(e) {
+            var t = document.getElementById("cursorImage");
+            t.style.left = e.pageX + "px";
+            t.style.top = e.pageY + "px";
+        });
+    </script>
 
     <style>
         body, html {
             height: 100%;
             margin: 0;
             overflow: hidden;
+			cursor: none;
             font-family: Arial, sans-serif;
             background-color: #8ACE00;
         }
@@ -78,6 +87,13 @@
             64% { color: blue; text-shadow: 0 0 10px blue; }
             80% { color: indigo; text-shadow: 0 0 10px indigo; }
         }
+		.cursor-image {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 1000;
+			}
     </style>
 </head>
 <body>
