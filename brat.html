@@ -9,27 +9,11 @@
             width: 50px; /* Adjust the width as needed */
             height: 30px; /* Adjust the height as needed */
         }
-    </style>
-</head>
-<body>
-    <audio src="https://files.catbox.moe/e3ef4m.mp3" controls autoplay loop>
-        Your browser does not support the audio element.
-    </audio>
-	 <img src="https://i.imgur.com/1vOtHU1.gif" alt="Cursor Image" class="cursor-image" id="cursorImage">
-    <script>
-        document.addEventListener("mousemove", function(e) {
-            var t = document.getElementById("cursorImage");
-            t.style.left = e.pageX + "px";
-            t.style.top = e.pageY + "px";
-        });
-    </script>
-
-    <style>
         body, html {
             height: 100%;
             margin: 0;
             overflow: hidden;
-			cursor: none;
+            cursor: none;
             font-family: Arial, sans-serif;
             background-color: #8ACE00;
         }
@@ -47,6 +31,10 @@
             text-transform: uppercase;
             animation: rotate3d 10s linear infinite;
             transform-style: preserve-3d;
+            background: url('https://i.imgur.com/1vOtHU1.gif') repeat;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-size: 20px 20px; /* Adjust the size of the GIF */
         }
         .text span {
             position: relative;
@@ -87,16 +75,27 @@
             64% { color: blue; text-shadow: 0 0 10px blue; }
             80% { color: indigo; text-shadow: 0 0 10px indigo; }
         }
-		.cursor-image {
+        .cursor-image {
             position: absolute;
             width: 50px;
             height: 50px;
             pointer-events: none;
             z-index: 1000;
-			}
+        }
     </style>
 </head>
 <body>
+    <audio src="https://files.catbox.moe/e3ef4m.mp3" controls autoplay loop>
+        Your browser does not support the audio element.
+    </audio>
+    <img src="https://i.imgur.com/1vOtHU1.gif" alt="Cursor Image" class="cursor-image" id="cursorImage">
+    <script>
+        document.addEventListener("mousemove", function(e) {
+            var t = document.getElementById("cursorImage");
+            t.style.left = e.pageX + "px";
+            t.style.top = e.pageY + "px";
+        });
+    </script>
     <div class="container">
         <div class="text">
             <span data-letter="T">T</span>
@@ -107,7 +106,5 @@
             <span data-letter="N">N</span>
         </div>
     </div>
-    
-
 </body>
 </html>
