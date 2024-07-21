@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe Specimens</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            overflow: hidden;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .image-container {
+            position: relative;
+            width: 80%;
+            height: 70%;
+            overflow: hidden;
+        }
+        .image-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s ease-out;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .instructions {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1></h1>
+        <div class="image-container">
+            <div class="image-item">
+                <img src="https://i.imgur.com/57FdXiY.png" alt="Specimen 1">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/ad9oLjO.gif" alt="Specimen 2">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/IIHPoLQ.gif" alt="Specimen 3">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/KpaB8Nf.png" alt="Specimen 4">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/xdHsYr0.png" alt="Specimen 5">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/bRaPoH2.png" alt="Specimen 6">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/9jiF8vw.png" alt="Specimen 7">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/kLc6LaO.gif" alt="Specimen 8">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/e6cZZPB.gif" alt="Specimen 9">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/CnH8SrQ.gif" alt="Specimen 10">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/jxNPhwV.gif" alt="Specimen 11">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/8z8jNgr.gif" alt="Specimen 12">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/6ZHWt6y.gif" alt="Specimen 13">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/SMC7tnj.gif" alt="Specimen 14">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/wJz15Lq.gif" alt="Specimen 15">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/i4np2eP.png" alt="Specimen 16">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/a3l9uIg.png" alt="Specimen 17">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/Hfq082b.png" alt="Specimen 18">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/65Ev21C.png" alt="Specimen 19">
+            </div>
+            <div class="image-item">
+                <img src="https://i.imgur.com/8t9roH8.png" alt="Specimen 20">
+            </div>
+        </div>
+        <p class="instructions">Scroll to change images</p>
+    </div>
+
+    <script>
+        const imageItems = document.querySelectorAll('.image-item');
+        let currentIndex = 0;
+        let isAnimating = false;
+
+        function showImage(index) {
+            imageItems.forEach((item, i) => {
+                if (i === index) {
+                    item.style.transform = 'translateX(0)';
+                    item.style.zIndex = '1';
+                } else {
+                    item.style.transform = 'translateX(100%)';
+                    item.style.zIndex = '0';
+                }
+            });
+        }
+
+        function nextImage() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const currentImage = imageItems[currentIndex];
+            currentIndex = (currentIndex + 1) % imageItems.length;
+            const nextImage = imageItems[currentIndex];
+
+            currentImage.style.transform = 'translateX(-100%)';
+            currentImage.style.zIndex = '0';
+            nextImage.style.transform = 'translateX(0)';
+            nextImage.style.zIndex = '1';
+
+            setTimeout(() => {
+                isAnimating = false;
+            }, 500);
+        }
+
+        function previousImage() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const currentImage = imageItems[currentIndex];
+            currentIndex = (currentIndex - 1 + imageItems.length) % imageItems.length;
+            const previousImage = imageItems[currentIndex];
+
+            currentImage.style.transform = 'translateX(100%)';
+            currentImage.style.zIndex = '0';
+            previousImage.style.transform = 'translateX(0)';
+            previousImage.style.zIndex = '1';
+
+            setTimeout(() => {
+                isAnimating = false;
+            }, 500);
+        }
+
+        showImage(currentIndex);
+
+        window.addEventListener('wheel', (event) => {
+            if (event.deltaY > 0) {
+                nextImage();
+            } else {
+                previousImage();
+            }
+        });
+    </script>
+</body>
+</html>
