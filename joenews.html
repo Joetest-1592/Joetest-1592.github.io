@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAMSEN NEWS</title>
+    <style>
+        body {
+            background-color: #000000;
+            background-image: url('https://i.imgur.com/Xg0Gs5Z.png');
+            color: #00ff00;
+            font-family: 'impact', cursive;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 3px solid #ff00ff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff00ff;
+            text-shadow: 2px 2px #00ffff;
+        }
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+        .marquee {
+            background-color: #ffff00;
+            color: #000000;
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .marquee span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TAMSEN NEWS!</h1>
+        <img src="https://i.imgur.com/BQ2Dy4P.gif" alt="Welcome" width="200">
+        <p class="blink">✨ Under Construction ✨</p>
+        <div class="marquee">
+            <span>Joseph Tamsen recently spotted off bike path on northern side of Grand Island, NY.</span>
+        </div>
+        <h2>Latest Posts</h2>
+        <ul>
+            <li>Why Joe Tamsen's IQ Does Not Matter</li>
+            <li>Top Ten Joe Rage Texts</li>
+            <li>The Best Joe Tamsen Pics of 2024</li>
+        </ul>
+        <p>dont forget to post your joe creepshots on the forum!</p>
+        <img src="https://i.imgur.com/JAqxK6a.gif" alt="Butterfly" width="50">
+    </div>
+	<div id="nav-toggle">&#9776; Menu</div>
+<nav id="overlay-nav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="countdown">Countdown</a>
+    <a href="joevids">Vids</a>
+    <a href="joesroom">Joe's Room</a>
+    <a href="joespecimens">Specimens...</a>
+	<a href="joenews">News</a>
+</nav>
+
+<style>
+    #nav-toggle {
+        font-size: 30px;
+        cursor: pointer;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+    }
+    
+    #overlay-nav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: rgba(0,0,0,0.5);
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+    
+    #overlay-nav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #812;
+        display: block;
+        transition: 0.3s;
+    }
+    
+    #overlay-nav a:hover {
+        color: #f1f1f1;
+    }
+    
+    #overlay-nav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+</style>
+
+<script>
+    function openNav() {
+        document.getElementById("overlay-nav").style.width = "250px";
+    }
+    
+    function closeNav() {
+        document.getElementById("overlay-nav").style.width = "0";
+    }
+    
+    document.getElementById("nav-toggle").addEventListener("click", openNav);
+</script>
+</body>
+</html>
