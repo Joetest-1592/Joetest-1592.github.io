@@ -20,7 +20,7 @@
             margin: 0;
             height: 100vh;
             perspective: 7em;
-            background: #aa;
+            background: url('https://i.imgur.com/1vOtHU1.gif')
         }
 
         div {
@@ -36,16 +36,16 @@
             --az: calc((var(--j) + .5) / var(--n-dots) * .5turn - 90deg);
             grid-area: 1 / 1;
             place-self: center;
-            width: calc(var(--f) * 3em);
-            height: calc(var(--f) * 3em);
-            border-radius: 100%;
+            width: calc(var(--f) * 5em);
+            height: calc(var(--f) * 5em);
+            border-radius: 0%;
             transform: rotatey(var(--ay)) rotatez(var(--az)) translate(10em) rotatez(calc(-1 * var(--az))) rotatey(calc(-1 * var(--ay)));
             background: url('https://i.imgur.com/1vOtHU1.gif') no-repeat center/cover;
         }
 
         .ball {
             cursor: grab;
-            transform: rotateX(0deg) rotateY(0deg);
+            transform: rotateX(2deg) rotateY(2deg);
         }
 
         .ball:active {
@@ -111,8 +111,8 @@
 
             function updateRotation() {
                 if (!isDragging) {
-                    currentX += velocityY * 3;
-                    currentY += velocityX * 3;
+                    currentX += velocityY * 5;
+                    currentY += velocityX * 5;
                     ball.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
 
                     velocityX *= 0.95;
