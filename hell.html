@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotatable Sphere with Images Facing Camera</title>
+    <style>
+        :root {
+            --n-arms: 10;
+            --n-dots: 80;
+            --n-rots: 12;
+        }
+
+        body, div {
+            display: grid;
+        }
+
+        body {
+            overflow: hidden;
+            margin: 0;
+            height: 100vh;
+            perspective: 7em;
+            background: #aa;
+        }
+
+        div {
+            transform-style: preserve-3d;
+        }
+
+        .dot {
+            --m: calc(.5 * (var(--n-dots) - 1));
+            --abs: max(var(--m) - var(--j), var(--j) - var(--m));
+            --f: calc(1.05 - var(--abs) / var(--m));
+            --k: calc(var(--n-rots) * var(--j) / (var(--n-dots) - 1));
+            --ay: calc((var(--i) - var(--k)) / var(--n-arms) * 1turn);
+            --az: calc((var(--j) + .5) / var(--n-dots) * .5turn - 90deg);
+            grid-area: 1 / 1;
+            place-self: center;
+            width: calc(var(--f) * 3em);
+            height: calc(var(--f) * 3em);
+            border-radius: 100%;
+            transform: rotatey(var(--ay)) rotatez(var(--az)) translate(10em) rotatez(calc(-1 * var(--az))) rotatey(calc(-1 * var(--ay)));
+            background: url('https://i.imgur.com/1vOtHU1.gif') no-repeat center/cover;
+        }
+
+        .ball {
+            cursor: grab;
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+
+        .ball:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body>
+    <div class="ball">
+        <!-- JavaScript to generate dots -->
+        <script>
+            const n_arms = 10, n_dots = 80, n_rots = 12;
+            const n = n_arms * n_dots;
+            const ball = document.querySelector('.ball');
+
+            for (let i = 0; i < n_arms; i++) {
+                for (let j = 0; j < n_dots; j++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    dot.style.setProperty('--i', i);
+                    dot.style.setProperty('--j', j);
+                    ball.appendChild(dot);
+                }
+            }
+
+            let isDragging = false;
+            let startX, startY;
+            let currentX = 0, currentY = 0;
+            let velocityX = 0, velocityY = 0;
+            let lastTime;
+
+            ball.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                lastTime = Date.now();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const currentTime = Date.now();
+                    const deltaTime = currentTime - lastTime;
+                    lastTime = currentTime;
+
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    velocityX = dx / deltaTime;
+                    velocityY = dy / deltaTime;
+
+                    currentX += dy * 0.1;
+                    currentY += dx * 0.1;
+                    ball.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+
+                    startX = e.clientX;
+                    startY = e.clientY;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                requestAnimationFrame(updateRotation);
+            });
+
+            function updateRotation() {
+                if (!isDragging) {
+                    currentX += velocityY * 3;
+                    currentY += velocityX * 3;
+                    ball.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+
+                    velocityX *= 0.95;
+                    velocityY *= 0.95;
+
+                    if (Math.abs(velocityX) > 0.01 || Math.abs(velocityY) > 0.01) {
+                        requestAnimationFrame(updateRotation);
+                    }
+                }
+            }
+
+            function updateDots() {
+                const dots = document.querySelectorAll('.dot');
+                dots.forEach(dot => {
+                    const ay = parseFloat(dot.style.getPropertyValue('--ay'));
+                    const az = parseFloat(dot.style.getPropertyValue('--az'));
+                    dot.style.transform = `rotateY(${ay}rad) rotateZ(${az}rad) translate(10em) rotateZ(${-az}rad) rotateY(${-ay}rad) rotateY(${currentY}deg) rotateX(${currentX}deg)`;
+                });
+                requestAnimationFrame(updateDots);
+            }
+
+            updateDots();
+        </script>
+    </div>
+</body>
+</html>
