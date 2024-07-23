@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Point-and-Click Game</title>
+    <title>Multi-Room Point-and-Click Game with Boss Battle</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,14 +14,13 @@
             height: 600px;
             margin: 0 auto;
             position: relative;
-            background-image: url('https://i.imgur.com/zgJwlj4.jpeg');
             background-size: cover;
             transition: background-image 0.5s ease;
         }
         .clickable {
             position: absolute;
             cursor: pointer;
-            max-width: 60px;
+            max-width: 80px;
             max-height: 100px;
             width: auto;
             height: auto;
@@ -35,60 +34,202 @@
             left: 10px;
             right: 10px;
         }
-        #video-container {
+        .nav-button {
+            position: absolute;
+            bottom: 50px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+        }
+        #prev-room {
+            left: 10px;
+        }
+        #next-room {
+            right: 10px;
+        }
+        #health-bar-container {
+            width: 80%;
+            height: 30px;
+            background-color: #ddd;
+            margin: 20px auto;
             display: none;
+        }
+        #health-bar {
+            width: 100%;
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.3s;
+        }
+        #win-screen {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            display: none;
         }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <img src="https://i.imgur.com/sREoKTd.gif" class="clickable" id="item1" style="left: 275px; top: 340px;" onclick="clickItem(this, 'picked up cigs')">
-        <img src="https://i.imgur.com/l7wBZTj.png" class="clickable" id="item2" style="right: 100px; top: 300px;" onclick="clickItem(this, 'You found Item 2!', true)">
         <div id="text-display"></div>
+        <div id="prev-room" class="nav-button" onclick="changeRoom(-1)">Go back</div>
+        <div id="next-room" class="nav-button" onclick="changeRoom(1)">Proceed</div>
+        <div id="health-bar-container">
+            <div id="health-bar"></div>
+        </div>
     </div>
-
-    <div id="video-container">
-        <div id="close-video" onclick="closeVideo()">✖</div>
-        <iframe id="youtube-video" width="640" height="360" frameborder="0" allowfullscreen></iframe>
-    </div>
+    <div id="win-screen">You killed Joe!</div>
 
     <script>
+        const rooms = [
+            {
+                background: 'https://i.imgur.com/zgJwlj4.jpeg',
+                description: "You wake up in Joe's living room.",
+                items: [
+                    { id: 'item1', src: 'https://i.imgur.com/sREoKTd.gif', x: 255, y: 320, text: 'Picked up cigs' },
+                    { id: 'item2', src: 'https://i.imgur.com/4dWlI71.gif', x: 540, y: 370, text: 'HOLY SHIT YOU FOUND A $19 FORTNITE CARD!!!' }
+                ]
+            },
+            {
+                background: 'https://i.imgur.com/IBVp9xI.png',
+                description: "Joe's Bathroom? It smells like shit.",
+                items: [
+                    { id: 'item3', src: 'https://i.imgur.com/mi9zLtU.gif', x: 200, y: 480, text: 'Found another pack of cigs' },
+                    { id: 'item4', src: 'https://i.imgur.com/Mk8q6RY.png', x: 520, y: 230, text: 'what was that?' }
+                ]
+            },
+            {
+                background: 'https://i.imgur.com/vu59jE6.png',
+                description: "This room is filled with gundams. You feel watched.",
+                items: [
+                    { id: 'item5', src: 'https://files.catbox.moe/0gnbp4.png', x: 50, y: 170, text: "You found Joe's Onahole" },
+                    { id: 'item6', src: 'https://i.imgur.com/tvFZ2G7.gif', x: 600, y: 260, text: 'Old pizza...' }
+                ]
+            },
+            {
+                background: 'https://i.imgur.com/nLO6loH.jpeg',
+                description: "A Familiar but Unknown place.",
+                items: [
+                    { id: 'item7', src: 'https://i.imgur.com/sREoKTd.gif', x: 300, y: 400, text: 'more cigs...' },
+                    { id: 'item8', src: 'https://i.imgur.com/bJARQwb.png', x: 500, y: 100, text: 'You feel a gaze.' }
+                ]
+            },
+            {
+                background: 'https://i.imgur.com/jVBSMEP.png',
+                description: "You continue down the hall. Into a cold dark room.",
+                items: [
+                    
+                ]
+            },
+            {
+                background: 'https://i.imgur.com/1pmdR6b.png',
+                description: "You stare in disbelief..",
+                items: [
+                    { id: 'item11', src: 'https://i.imgur.com/GJQHeb8.png', x: 400, y: 300, text: 'You found a used bad dragon dildo!' },
+                    
+                ]
+            },
+            
+            {
+                background: 'https://i.imgur.com/d2HZ9F9.gif',
+                description: "You've reached the final chamber. Joe's presence fills the air. Prepare for the ultimate challenge!",
+                items: []
+            }
+        ];
+
+        let currentRoom = 0;
+        const clickedItems = new Set();
+        let bossHealth = 250;
+
         function showText(text) {
             document.getElementById('text-display').innerText = text;
         }
 
-        function clickItem(item, text, changeBackground = false) {
+        function clickItem(item, text) {
             item.style.opacity = '0';
             setTimeout(() => item.style.display = 'none', 300);
             showText(text);
+            clickedItems.add(item.id);
+        }
 
-            if (changeBackground) {
-                const gameContainer = document.getElementById('game-container');
-                gameContainer.style.backgroundImage = "url('https://i.imgur.com/IBVp9xI.png')";
-                showText("the smell of Joe's shit overwhelms you");
-                setTimeout(showVideo, 5000);
+        function changeRoom(direction) {
+            currentRoom += direction;
+            if (currentRoom < 0) currentRoom = 0;
+            if (currentRoom >= rooms.length) currentRoom = rooms.length - 1;
+            updateRoom();
+        }
+
+        function updateRoom() {
+            const gameContainer = document.getElementById('game-container');
+            const room = rooms[currentRoom];
+            gameContainer.style.backgroundImage = `url('${room.background}')`;
+            
+            // Clear existing items
+            document.querySelectorAll('.clickable').forEach(el => el.remove());
+
+            // Show/hide navigation buttons
+            document.getElementById('prev-room').style.display = currentRoom === 0 ? 'none' : 'block';
+            document.getElementById('next-room').style.display = currentRoom === rooms.length - 1 ? 'none' : 'block';
+
+            if (currentRoom === rooms.length - 1) {
+                // Boss room
+                document.getElementById('health-bar-container').style.display = 'block';
+                updateBossHealth();
+                gameContainer.onclick = attackBoss;
+                showText("It's Joe! Click to attack!");
+            } else {
+                // Regular room
+                document.getElementById('health-bar-container').style.display = 'none';
+                gameContainer.onclick = null;
+
+                // Add new items
+                room.items.forEach(item => {
+                    if (!clickedItems.has(item.id)) {
+                        const img = document.createElement('img');
+                        img.src = item.src;
+                        img.className = 'clickable';
+                        img.id = item.id;
+                        img.style.left = `${item.x}px`;
+                        img.style.top = `${item.y}px`;
+                        img.onclick = () => clickItem(img, item.text);
+                        gameContainer.appendChild(img);
+                    }
+                });
+
+                showText(room.description);
             }
         }
 
-        function showVideo() {
-            const videoContainer = document.getElementById('video-container');
-            const iframe = document.getElementById('youtube-video');
-            // Replace 'VIDEO_ID' with the actual YouTube video ID
-            iframe.src = 'https://www.youtube.com/embed/BhHPmqLQcG4?autoplay=1';
-            videoContainer.style.display = 'block';
+        function attackBoss() {
+            bossHealth--;
+            updateBossHealth();
+            if (bossHealth <= 0) {
+                document.getElementById('win-screen').style.display = 'flex';
+            }
         }
 
-        function closeVideo() {
-            const videoContainer = document.getElementById('video-container');
-            const iframe = document.getElementById('youtube-video');
-            videoContainer.style.display = 'none';
-            iframe.src = '';
+        function updateBossHealth() {
+            const healthBar = document.getElementById('health-bar');
+            const healthPercentage = (bossHealth / 250) * 100;
+            healthBar.style.width = `${healthPercentage}%`;
+
+            const gameContainer = document.getElementById('game-container');
+            if (healthPercentage <= 10) {
+                gameContainer.style.backgroundImage = "url('https://i.imgur.com/trIYJMt.png')";
+            } else if (healthPercentage <= 50) {
+                gameContainer.style.backgroundImage = "url('https://i.imgur.com/deezQVX.png')";
+            }
         }
+
+        // Initialize the game
+        updateRoom();
     </script>
 </body>
 </html>
