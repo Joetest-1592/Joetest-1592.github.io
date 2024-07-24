@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Layer Horizontal Platformer</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+        #score {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas" width="1900" height="900"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+
+        const player = {
+            x: 50,
+            y: 50,
+            width: 30,
+            height: 30,
+            speed: 5,
+            jumpForce: 12,
+            yVelocity: 0,
+            isJumping: false,
+            jumpCooldown: 0,
+            jumpCooldownMax: 20
+        };
+
+        const camera = {
+            x: 0,
+            y: 0
+        };
+
+        const layers = [
+            {
+                platforms: [
+                    { x: 0, y: 350, width: 1500, height: 50 },
+                    { x: 300, y: 250, width: 200, height: 30 },
+                    { x: 700, y: 180, width: 200, height: 30 },
+                    { x: 1100, y: 250, width: 200, height: 30 }
+                ],
+                spikes: [
+                    { x: 550, y: 330, width: 50, height: 20 },
+                    { x: 950, y: 330, width: 50, height: 20 }
+                ],
+                collectables: [
+                    { x: 400, y: 200, width: 30, height: 30, collected: false },
+                    { x: 800, y: 130, width: 30, height: 30, collected: false },
+                    { x: 1200, y: 200, width: 30, height: 30, collected: false }
+                ],
+                exit: { x: 1550, y: 300, width: 50, height: 100 }
+            },
+            {
+                platforms: [
+                    { x: 0, y: 350, width: 1500, height: 50 },
+                    { x: 200, y: 200, width: 200, height: 30 },
+                    { x: 600, y: 250, width: 200, height: 30 },
+                    { x: 1000, y: 180, width: 200, height: 30 }
+                ],
+                spikes: [
+                    { x: 450, y: 330, width: 50, height: 20 },
+                    { x: 850, y: 330, width: 50, height: 20 },
+                    { x: 1250, y: 330, width: 50, height: 20 }
+                ],
+                collectables: [
+                    { x: 300, y: 150, width: 30, height: 30, collected: false },
+                    { x: 700, y: 200, width: 30, height: 30, collected: false },
+                    { x: 1100, y: 130, width: 30, height: 30, collected: false }
+                ],
+                exit: { x: 1550, y: 300, width: 50, height: 100 }
+            },
+            {
+                platforms: [
+                    { x: 0, y: 350, width: 1500, height: 50 },
+                    { x: 200, y: 250, width: 100, height: 30 },
+                    { x: 400, y: 200, width: 100, height: 30 },
+                    { x: 600, y: 150, width: 100, height: 30 },
+                    { x: 800, y: 200, width: 100, height: 30 },
+                    { x: 1000, y: 250, width: 100, height: 30 },
+                    { x: 1200, y: 200, width: 100, height: 30 }
+                ],
+                spikes: [
+                    { x: 350, y: 330, width: 50, height: 20 },
+                    { x: 750, y: 330, width: 50, height: 20 },
+                    { x: 1150, y: 330, width: 50, height: 20 }
+                ],
+                collectables: [
+                    { x: 250, y: 200, width: 30, height: 30, collected: false },
+                    { x: 650, y: 100, width: 30, height: 30, collected: false },
+                    { x: 1050, y: 200, width: 30, height: 30, collected: false }
+                ],
+                exit: { x: 1550, y: 300, width: 50, height: 100 }
+            },
+            {
+                platforms: [
+                    { x: 0, y: 350, width: 1500, height: 50 },
+                    { x: 200, y: 200, width: 100, height: 30 },
+                    { x: 400, y: 250, width: 100, height: 30 },
+                    { x: 600, y: 150, width: 100, height: 30 },
+                    { x: 800, y: 250, width: 100, height: 30 },
+                    { x: 1000, y: 150, width: 100, height: 30 },
+                    { x: 1200, y: 250, width: 100, height: 30 }
+                ],
+                spikes: [
+                    { x: 300, y: 330, width: 50, height: 20 },
+                    { x: 500, y: 330, width: 50, height: 20 },
+                    { x: 700, y: 330, width: 50, height: 20 },
+                    { x: 900, y: 330, width: 50, height: 20 },
+                    { x: 1100, y: 330, width: 50, height: 20 },
+                    { x: 1300, y: 330, width: 50, height: 20 }
+                ],
+                collectables: [
+                    { x: 250, y: 150, width: 30, height: 30, collected: false },
+                    { x: 650, y: 100, width: 30, height: 30, collected: false },
+                    { x: 1050, y: 100, width: 30, height: 30, collected: false },
+                    { x: 1250, y: 200, width: 30, height: 30, collected: false }
+                ],
+                exit: { x: 1550, y: 300, width: 50, height: 100 }
+            },
+            {
+                platforms: [
+                    { x: 0, y: 350, width: 1500, height: 50 },
+                    { x: 200, y: 300, width: 100, height: 30 },
+                    { x: 400, y: 250, width: 100, height: 30 },
+                    { x: 600, y: 200, width: 100, height: 30 },
+                    { x: 800, y: 150, width: 100, height: 30 },
+                    { x: 1000, y: 200, width: 100, height: 30 },
+                    { x: 1200, y: 250, width: 100, height: 30 }
+                ],
+                spikes: [
+                    { x: 300, y: 330, width: 50, height: 20 },
+                    { x: 500, y: 330, width: 50, height: 20 },
+                    { x: 700, y: 330, width: 50, height: 20 },
+                    { x: 900, y: 330, width: 50, height: 20 },
+                    { x: 1100, y: 330, width: 50, height: 20 },
+                    { x: 1300, y: 330, width: 50, height: 20 },
+                    { x: 350, y: 280, width: 50, height: 20 },
+                    { x: 750, y: 180, width: 50, height: 20 },
+                    { x: 1150, y: 280, width: 50, height: 20 }
+                ],
+                collectables: [
+                    { x: 250, y: 250, width: 30, height: 30, collected: false },
+                    { x: 650, y: 150, width: 30, height: 30, collected: false },
+                    { x: 850, y: 100, width: 30, height: 30, collected: false },
+                    { x: 1050, y: 150, width: 30, height: 30, collected: false },
+                    { x: 1250, y: 200, width: 30, height: 30, collected: false }
+                ],
+                exit: { x: 1550, y: 300, width: 50, height: 100 }
+            },
+            {
+                platforms: [
+                    { x: 0, y: 350, width: 1600, height: 50 }
+                ],
+                spikes: [],
+                collectables: [],
+                exit: { x: 1550, y: 300, width: 50, height: 100 }
+            }
+        ];
+
+        let currentLayer = 0;
+
+        const keys = {
+            left: false,
+            right: false,
+            up: false
+        };
+
+        let score = 0;
+
+        // Load images
+        const playerImg = new Image();
+        playerImg.src = 'https://i.imgur.com/d2HZ9F9.gif'; // Blue square character
+
+        const platformImg = new Image();
+        platformImg.src = 'https://i.imgur.com/2qqHeSp.png'; // Green platform
+
+        const collectableImg = new Image();
+        collectableImg.src = 'https://i.imgur.com/sREoKTd.gif'; // Gold coin
+
+        const backgroundImg = new Image();
+        backgroundImg.src = 'https://i.imgur.com/zgJwlj4.jpeg'; // Sky background
+
+        const spikeImg = new Image();
+        spikeImg.src = 'https://i.imgur.com/GJQHeb8.png'; // Spike image
+
+        const exitImg = new Image();
+        exitImg.src = 'https://i.imgur.com/IBVp9xI.png'; // Red exit
+
+        function drawBackground() {
+            ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+        }
+
+        function drawPlayer() {
+            ctx.drawImage(playerImg, player.x - camera.x, player.y - camera.y, player.width, player.height);
+        }
+
+        function drawLayer(layer) {
+            layer.platforms.forEach(platform => {
+                ctx.drawImage(platformImg, platform.x - camera.x, platform.y - camera.y, platform.width, platform.height);
+            });
+
+            layer.spikes.forEach(spike => {
+                ctx.drawImage(spikeImg, spike.x - camera.x, spike.y - camera.y, spike.width, spike.height);
+            });
+
+            layer.collectables.forEach(collectable => {
+                if (!collectable.collected) {
+                    ctx.drawImage(collectableImg, collectable.x - camera.x, collectable.y - camera.y, collectable.width, collectable.height);
+                }
+            });
+
+            ctx.drawImage(exitImg, layer.exit.x - camera.x, layer.exit.y - camera.y, layer.exit.width, layer.exit.height);
+        }
+
+        function applyGravity() {
+            player.yVelocity += 0.6; // Gravity
+            player.y += player.yVelocity;
+
+            // Check for collision with platforms
+            const currentLayerData = layers[currentLayer];
+            currentLayerData.platforms.forEach(platform => {
+                if (player.y + player.height > platform.y &&
+                    player.y < platform.y + platform.height &&
+                    player.x < platform.x + platform.width &&
+                    player.x + player.width > platform.x) {
+                    player.y = platform.y - player.height;
+                    player.yVelocity = 0;
+                    player.isJumping = false;
+                }
+            });
+        }
+
+        function movePlayer() {
+            if (keys.left) {
+                player.x -= player.speed;
+            }
+            if (keys.right) {
+                player.x += player.speed;
+            }
+            if (keys.up && !player.isJumping && player.jumpCooldown === 0) {
+                player.yVelocity = -player.jumpForce;
+                player.isJumping = true;
+                player.jumpCooldown = player.jumpCooldownMax;
+            }
+
+            if (player.jumpCooldown > 0) {
+                player.jumpCooldown--;
+            }
+
+            // Keep player within canvas bounds
+            player.x = Math.max(0, Math.min(player.x, 1600 - player.width));
+        }
+
+        function updateCamera() {
+            camera.x = player.x - canvas.width / 2 + player.width / 2;
+            camera.x = Math.max(0, Math.min(camera.x, 1600 - canvas.width));
+        }
+
+        function checkCollectables() {
+            const currentLayerData = layers[currentLayer];
+            currentLayerData.collectables.forEach(collectable => {
+                if (!collectable.collected &&
+                    player.x < collectable.x + collectable.width &&
+                    player.x + player.width > collectable.x &&
+                    player.y < collectable.y + collectable.height &&
+                    player.y + player.height > collectable.y) {
+                    collectable.collected = true;
+                    score += 1;
+                    scoreElement.textContent = `Score: ${score}`;
+                }
+            });
+        }
+
+        function checkSpikes() {
+            const currentLayerData = layers[currentLayer];
+            currentLayerData.spikes.forEach(spike => {
+                if (player.x < spike.x + spike.width &&
+                    player.x + player.width > spike.x &&
+                    player.y < spike.y + spike.height &&
+                    player.y + player.height > spike.y) {
+                    resetPlayer();
+                }
+            });
+        }
+
+        function checkExit() {
+            const currentLayerData = layers[currentLayer];
+            const exit = currentLayerData.exit;
+            if (player.x < exit.x + exit.width &&
+                player.x + player.width > exit.x &&
+                player.y < exit.y + exit.height &&
+                player.y + player.height > exit.y) {
+                if (currentLayer < layers.length - 1) {
+                    currentLayer++;
+                    resetPlayer();
+                } else {
+                    alert(`Congratulations! You finished with a score of ${score}`);
+                    resetGame();
+                }
+            }
+        }
+
+        function resetPlayer() {
+            player.x = 50;
+            player.y = 50;
+            player.yVelocity = 0;
+        }
+
+        function resetGame() {
+            currentLayer = 0;
+            resetPlayer();
+            score = 0;
+            scoreElement.textContent = "Score: 0";
+            layers.forEach(layer => {
+                layer.collectables.forEach(collectable => collectable.collected = false);
+            });
+        }
+
+        function handleKeyDown(e) {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    keys.left = true;
+                    break;
+                case 'ArrowRight':
+                    keys.right = true;
+                    break;
+                case 'ArrowUp':
+                case ' ':
+                    keys.up = true;
+                    break;
+            }
+        }
+
+        function handleKeyUp(e) {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    keys.left = false;
+                    break;
+                case 'ArrowRight':
+                    keys.right = false;
+                    break;
+                case 'ArrowUp':
+                case ' ':
+                    keys.up = false;
+                    break;
+            }
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            movePlayer();
+            applyGravity();
+            updateCamera();
+            checkCollectables();
+            checkSpikes();
+            checkExit();
+
+            drawBackground();
+            drawLayer(layers[currentLayer]);
+            drawPlayer();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keyup', handleKeyUp);
+        gameLoop();
+    </script>
+</body>
+</html>
