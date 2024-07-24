@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i stole this from fishtank</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+            overflow: hidden;
+            background-color: #008080;  /* Fallback color */
+            background-image: url('YOUR_BACKGROUND_IMAGE_URL_HERE');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        #score {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 16px;
+            background-color: #C0C0C0;
+            color: #000;
+            padding: 5px 10px;
+            border: 2px solid;
+            border-top-color: #DFDFDF;
+            border-left-color: #DFDFDF;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+            z-index: 1000;
+        }
+        .popup {
+            position: absolute;
+            background-color: #C0C0C0;
+            border: 2px solid;
+            border-top-color: #DFDFDF;
+            border-left-color: #DFDFDF;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .popup-title {
+            background-color: #000080;
+            color: #FFF;
+            font-weight: bold;
+            padding: 2px 5px;
+            font-size: 12px;
+        }
+        .popup img {
+            display: block;
+            margin: 5px;
+        }
+        .close-button {
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            width: 16px;
+            height: 14px;
+            background-color: #C0C0C0;
+            color: #000;
+            text-align: center;
+            line-height: 14px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid;
+            border-top-color: #DFDFDF;
+            border-left-color: #DFDFDF;
+            border-right-color: #808080;
+            border-bottom-color: #808080;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Score: 0</div>
+
+    <script>
+        let score = 0;
+        const scoreDisplay = document.getElementById('score');
+
+        const images = [
+            'https://i.imgur.com/LEtLang.gif',
+            'https://i.imgur.com/X0QyVaK.gif',
+            'https://i.imgur.com/hiACdNX.png',
+            'https://i.imgur.com/vc9qqIj.gif',
+            'https://i.imgur.com/5SsLPEk.png',
+            'https://i.imgur.com/uBbHw3S.png',
+            'https://i.imgur.com/XU8b2kZ.png',
+            'https://i.imgur.com/9HRPhkC.png'
+        ];
+
+        const titles = [
+            'Warning!', 'Alert!', 'Update Required', 'New Message', 'System Error'
+        ];
+
+        function createPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            
+            const title = document.createElement('div');
+            title.className = 'popup-title';
+            title.textContent = titles[Math.floor(Math.random() * titles.length)];
+            popup.appendChild(title);
+
+            const img = new Image();
+            img.src = images[Math.floor(Math.random() * images.length)];
+            
+            img.onload = function() {
+                const imgWidth = this.width;
+                const imgHeight = this.height;
+                
+                popup.style.width = (imgWidth + 10) + 'px';  // Add 10px for margins
+                popup.style.height = (imgHeight + 30) + 'px';  // Add 30px for title bar and margins
+                
+                popup.style.left = Math.random() * (window.innerWidth - imgWidth - 10) + 'px';
+                popup.style.top = Math.random() * (window.innerHeight - imgHeight - 30) + 'px';
+                
+                document.body.appendChild(popup);
+            };
+
+            popup.appendChild(img);
+
+            const closeButton = document.createElement('div');
+            closeButton.className = 'close-button';
+            closeButton.textContent = 'X';
+            popup.appendChild(closeButton);
+
+            closeButton.onclick = function(e) {
+                e.stopPropagation();
+                document.body.removeChild(popup);
+                score++;
+                scoreDisplay.textContent = 'Score: ' + score;
+            };
+        }
+
+        function startGame() {
+            setInterval(createPopup, 1000);
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
