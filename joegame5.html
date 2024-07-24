@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe Defense</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+        #game-info {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <div id="game-info">
+        <p>Money: <span id="money">100</span></p>
+        <p>Wave: <span id="wave">1</span></p>
+        <p>Wall Health: <span id="wall-health">100</span></p>
+        <button onclick="buyTower(1)">Buy Basic Tower ($50)</button>
+        <button onclick="buyTower(2)">Buy Advanced Tower ($100)</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let money = 100;
+        let wave = 1;
+        let wallHealth = 100;
+        let towers = [];
+        let enemies = [];
+        let projectiles = [];
+        let gameOver = false;
+        let frameCount = 0;
+
+        // Image objects
+        const images = {
+            background: new Image(),
+            wall: new Image(),
+            basicTower: new Image(),
+            advancedTower: new Image(),
+            enemy: new Image(),
+            boss: new Image(),
+            projectile: new Image()
+        };
+
+        // Set image sources (replace with your image URLs)
+        images.background.src = 'https://i.imgur.com/1pmdR6b.png';
+        images.wall.src = 'https://i.imgur.com/VZ8LgSM.png';
+        images.basicTower.src = 'https://i.imgur.com/I7mf64P.png';
+        images.advancedTower.src = 'https://i.imgur.com/ILgyEir.png';
+        images.enemy.src = 'https://i.imgur.com/Q0K96q0.png';
+        images.boss.src = 'https://i.imgur.com/0dVS45G.jpeg';
+        images.projectile.src = 'https://i.imgur.com/byb7NcF.png';
+
+        function updateGameInfo() {
+            document.getElementById('money').textContent = money;
+            document.getElementById('wave').textContent = wave;
+            document.getElementById('wall-health').textContent = wallHealth;
+        }
+
+        function buyTower(type) {
+    let cost = type === 1 ? 50 : 100;
+    if (money >= cost) {
+        money -= cost;
+        let towerY = 20 + (towers.length * 40);
+        if (towerY > canvas.height - 20) {
+            towerY = 20 + ((towers.length % 9) * 40);
+        }
+        towers.push({
+            x: 30,
+            y: towerY,
+            type: type,
+            damage: type === 10 ? 20 : 50,
+            cooldown: 0
+        });
+        updateGameInfo();
+    }
+}
+
+        function spawnEnemies() {
+            let enemyCount = wave * 2;
+            for (let i = 0; i < enemyCount; i++) {
+                enemies.push({
+                    x: 800,
+                    y: Math.random() * 350,
+                    health: 50,
+                    maxHealth: 50,
+                    speed: 1,
+                    isBoss: false
+                });
+            }
+            if (wave % 5 === 0) {
+                enemies.push({
+                    x: 800,
+                    y: canvas.height / 2,
+                    health: 500,
+                    maxHealth: 500,
+                    speed: 0.5,
+                    isBoss: true
+                });
+            }
+            wave++;
+            updateGameInfo();
+        }
+
+        function drawGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw background
+            ctx.drawImage(images.background, 0, 0, canvas.width, canvas.height);
+
+            // Draw wall
+            ctx.drawImage(images.wall, 0, 0);
+
+            // Draw towers
+            for (let tower of towers) {
+                ctx.drawImage(tower.type === 1 ? images.basicTower : images.advancedTower, tower.x - 20, tower.y - 20);
+            }
+
+            // Draw enemies
+            for (let enemy of enemies) {
+                let img = enemy.isBoss ? images.boss : images.enemy;
+                let size = enemy.isBoss ? 80 : 40;
+                ctx.drawImage(img, enemy.x - size/2, enemy.y - size/2, size, size);
+                
+                // Draw health bar
+                ctx.fillStyle = 'darkred';
+                ctx.fillRect(enemy.x - size/2, enemy.y - size/2 - 10, size, 5);
+                ctx.fillStyle = 'limegreen';
+                ctx.fillRect(enemy.x - size/2, enemy.y - size/2 - 10, (enemy.health / enemy.maxHealth) * size, 5);
+            }
+
+            // Draw projectiles
+            for (let projectile of projectiles) {
+                ctx.drawImage(images.projectile, projectile.x - 5, projectile.y - 5);
+            }
+        }
+
+        function gameLoop() {
+            if (gameOver) return;
+
+            frameCount++;
+
+            // Move enemies
+            for (let enemy of enemies) {
+                enemy.x -= enemy.speed;
+                if (enemy.x <= 20) {
+                    wallHealth -= enemy.isBoss ? 50 : 10;
+                    enemies = enemies.filter(e => e !== enemy);
+                    updateGameInfo();
+                }
+            }
+
+            // Tower attacks
+            for (let tower of towers) {
+    if (tower.cooldown <= 0 && enemies.length > 0) {
+        let enemy = enemies[0];
+        projectiles.push({
+            x: tower.x,
+            y: tower.y,
+            targetEnemy: enemy,
+            speed: 5,
+            damage: tower.damage  // This now correctly uses the tower's damage
+        });
+        tower.cooldown = tower.type === 1 ? 60 : 90; // Basic tower: 1 second, Advanced tower: 1.5 seconds
+    } else {
+        tower.cooldown--;
+    }
+            }
+
+            // Move projectiles
+            for (let projectile of projectiles) {
+                let dx = projectile.targetEnemy.x - projectile.x;
+                let dy = projectile.targetEnemy.y - projectile.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < projectile.speed || !enemies.includes(projectile.targetEnemy)) {
+                    if (enemies.includes(projectile.targetEnemy)) {
+                        projectile.targetEnemy.health -= projectile.damage;
+                        if (projectile.targetEnemy.health <= 0) {
+                            enemies = enemies.filter(e => e !== projectile.targetEnemy);
+                            money += projectile.targetEnemy.isBoss ? 100 : 10;
+                            updateGameInfo();
+                        }
+                    }
+                    projectiles = projectiles.filter(p => p !== projectile);
+                } else {
+                    projectile.x += (dx / distance) * projectile.speed;
+                    projectile.y += (dy / distance) * projectile.speed;
+                }
+            }
+
+            // Check game over
+            if (wallHealth <= 0) {
+                gameOver = true;
+                alert('Game Over! You survived ' + (wave - 1) + ' waves.');
+            }
+
+            // Spawn new wave if all enemies are defeated
+            if (enemies.length === 0) {
+                spawnEnemies();
+            }
+
+            drawGame();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Wait for all images to load before starting the game
+        Promise.all(Object.values(images).map(img => new Promise(resolve => img.onload = resolve)))
+            .then(() => {
+                spawnEnemies();
+                gameLoop();
+            });
+    </script>
+</body>
+</html>
