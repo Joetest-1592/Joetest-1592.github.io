@@ -108,5 +108,72 @@
     <footer>
         <marquee behavior="scroll" direction="left">NEW JOE GAMES ADDED WEEKLY!!! NEXT GAME WILL BE JOE FAP HERO!!!</marquee>
     </footer>
+	<div id="nav-toggle">&#9776; Menu</div>
+<nav id="overlay-nav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="countdown">Countdown</a>
+    <a href="joevids">Vids</a>
+    <a href="joesroom">Joe's Room</a>
+    <a href="joespecimens">Specimens...</a>
+	<a href="joenews">News</a>
+	<a href="games">Games!</a>
+</nav>
+
+<style>
+    #nav-toggle {
+        font-size: 30px;
+        cursor: pointer;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+    }
+    
+    #overlay-nav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: rgba(0,0,0,0.5);
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+    
+    #overlay-nav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #812;
+        display: block;
+        transition: 0.3s;
+    }
+    
+    #overlay-nav a:hover {
+        color: #f1f1f1;
+    }
+    
+    #overlay-nav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+</style>
+
+<script>
+    function openNav() {
+        document.getElementById("overlay-nav").style.width = "250px";
+    }
+    
+    function closeNav() {
+        document.getElementById("overlay-nav").style.width = "0";
+    }
+    
+    document.getElementById("nav-toggle").addEventListener("click", openNav);
+</script>
 </body>
 </html>
