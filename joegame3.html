@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>joe hunie pop</title>
+    <style>
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(8, 50px);
+            grid-gap: 1px;
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .gem {
+            width: 50px;
+            height: 50px;
+            border-radius: 25%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+        }
+        #score {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-board"></div>
+    <div id="score">Score: 0</div>
+
+    <script>
+        const board = document.getElementById('game-board');
+        const scoreDisplay = document.getElementById('score');
+        
+        // Set your gem images here
+        const gemImages = [
+            'https://i.imgur.com/gAmfKWe.png',
+            'https://i.imgur.com/h1RTL2p.png',
+            'https://i.imgur.com/BJ5akso.png',
+            'https://i.imgur.com/Q0K96q0.png',
+            'https://i.imgur.com/Xg0Gs5Z.png'
+        ];
+
+        const boardSize = 8;
+        let gems = [];
+        let score = 0;
+        let selectedGem = null;
+        let isProcessing = false;
+
+        function createBoard() {
+            for (let i = 0; i < boardSize * boardSize; i++) {
+                const gem = document.createElement('div');
+                gem.classList.add('gem');
+                gem.style.backgroundImage = `url(${getRandomGemImage()})`;
+                gem.addEventListener('click', selectGem);
+                board.appendChild(gem);
+                gems.push(gem);
+            }
+            setTimeout(initializeBoard, 300);
+        }
+
+        function initializeBoard() {
+            let hasMatches;
+            do {
+                hasMatches = checkMatches();
+                if (hasMatches) {
+                    refillBoard();
+                }
+            } while (hasMatches);
+        }
+
+        function getRandomGemImage() {
+            return gemImages[Math.floor(Math.random() * gemImages.length)];
+        }
+
+        function selectGem(e) {
+            if (isProcessing) return;
+            if (selectedGem === null) {
+                selectedGem = e.target;
+                selectedGem.style.transform = 'scale(1.1)';
+            } else {
+                const index1 = gems.indexOf(selectedGem);
+                const index2 = gems.indexOf(e.target);
+                if (areAdjacent(index1, index2)) {
+                    isProcessing = true;
+                    swapGems(index1, index2);
+                    setTimeout(() => {
+                        if (!checkMatches()) {
+                            swapGems(index1, index2);
+                            isProcessing = false;
+                        } else {
+                            setTimeout(() => {
+                                refillBoard();
+                                isProcessing = false;
+                            }, 300);
+                        }
+                    }, 300);
+                }
+                selectedGem.style.transform = 'scale(1)';
+                selectedGem = null;
+            }
+        }
+
+        function areAdjacent(index1, index2) {
+            const row1 = Math.floor(index1 / boardSize);
+            const col1 = index1 % boardSize;
+            const row2 = Math.floor(index2 / boardSize);
+            const col2 = index2 % boardSize;
+            return Math.abs(row1 - row2) + Math.abs(col1 - col2) === 1;
+        }
+
+        function swapGems(index1, index2) {
+            const tempImage = gems[index1].style.backgroundImage;
+            gems[index1].style.backgroundImage = gems[index2].style.backgroundImage;
+            gems[index2].style.backgroundImage = tempImage;
+        }
+
+        function checkMatches() {
+            let matched = new Set();
+            
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize - 2; j++) {
+                    checkLine(i * boardSize + j, 1, matched);
+                    checkLine(j * boardSize + i, boardSize, matched);
+                }
+            }
+
+            if (matched.size > 0) {
+                score += matched.size;
+                scoreDisplay.textContent = `Score: ${score}`;
+                matched.forEach(index => {
+                    gems[index].style.transform = 'scale(0)';
+                });
+                return true;
+            }
+            return false;
+        }
+
+        function checkLine(startIndex, step, matched) {
+            if (gems[startIndex].style.backgroundImage !== '' &&
+                gems[startIndex].style.backgroundImage === gems[startIndex + step].style.backgroundImage &&
+                gems[startIndex].style.backgroundImage === gems[startIndex + 2 * step].style.backgroundImage) {
+                matched.add(startIndex);
+                matched.add(startIndex + step);
+                matched.add(startIndex + 2 * step);
+            }
+        }
+
+        function refillBoard() {
+            let hasChanges = false;
+            gems.forEach((gem, index) => {
+                if (gem.style.transform === 'scale(0)') {
+                    gem.style.backgroundImage = `url(${getRandomGemImage()})`;
+                    gem.style.transform = 'scale(1)';
+                    hasChanges = true;
+                }
+            });
+            if (hasChanges) {
+                setTimeout(() => {
+                    if (checkMatches()) {
+                        setTimeout(refillBoard, 300);
+                    }
+                }, 300);
+            }
+        }
+
+        createBoard();
+    </script>
+</body>
+</html>
