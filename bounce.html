@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bouncing DVD Logo</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        #container {
+            width: 100vw;
+            height: 100vh;
+            background-color: #00ff00;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #upload-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        #upload-container:hover {
+            opacity: 1;
+        }
+        
+        .upload-label {
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        #bouncing-image {
+            position: absolute;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="upload-container">
+            <label for="image-upload" class="upload-label">Upload Image</label>
+            <input type="file" id="image-upload" accept="image/*" style="display: none;">
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const upload = document.getElementById('image-upload');
+        let imgElement = null;
+        let animationFrameId = null;
+
+        upload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (imgElement) {
+                container.removeChild(imgElement);
+                cancelAnimationFrame(animationFrameId);
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                imgElement = new Image();
+                imgElement.src = event.target.result;
+                imgElement.id = 'bouncing-image';
+                imgElement.style.display = 'block';
+                container.appendChild(imgElement);
+
+                imgElement.onload = function() {
+                    const speed = 2;
+                    let dx = speed;
+                    let dy = speed;
+                    let x = 0;
+                    let y = 0;
+                    const maxWidth = container.clientWidth - imgElement.width;
+                    const maxHeight = container.clientHeight - imgElement.height;
+
+                    function animate() {
+                        x += dx;
+                        y += dy;
+
+                        if (x <= 0 || x >= maxWidth) {
+                            dx = -dx;
+                            x = x <= 0 ? 0 : maxWidth;
+                        }
+
+                        if (y <= 0 || y >= maxHeight) {
+                            dy = -dy;
+                            y = y <= 0 ? 0 : maxHeight;
+                        }
+
+                        imgElement.style.left = x + 'px';
+                        imgElement.style.top = y + 'px';
+
+                        animationFrameId = requestAnimationFrame(animate);
+                    }
+
+                    animate();
+                };
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
